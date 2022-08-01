@@ -19,7 +19,12 @@ def download_from_s3(key: str, bucket_name: str, local_path: str) -> str:
     return file_name
     
     
-with DAG(...) as dag:
+with DAG(
+    dag_id='s3_download',
+    schedule_interval='@daily',
+    start_date=datetime(2022, 3, 1),
+    catchup=False
+) as dag:
     # Download a file
     task_download_from_s3 = PythonOperator(
         task_id='download_from_s3',
@@ -37,7 +42,12 @@ def rename_file(ti, new_name: str) -> None:
     os.rename(src=downloaded_file_name[0], dst=f"{downloaded_file_path}/{new_name}")
     
     
-with DAG(...) as dag:
+with DAG(
+    dag_id='s3_download',
+    schedule_interval='@daily',
+    start_date=datetime(2022, 3, 1),
+    catchup=False
+) as dag:
     # Download a file
     task_download_from_s3 = PythonOperator(
         task_id='download_from_s3',
