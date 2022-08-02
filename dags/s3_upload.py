@@ -16,7 +16,7 @@ json_object = json.loads(json_str)
 s3 = boto3.client('s3')
 
 with DAG(
-    dag_id='s3_dag',
+    dag_id='s3_upload',
     schedule_interval='@daily',
     start_date=datetime(2022, 7, 29),
     catchup=False
