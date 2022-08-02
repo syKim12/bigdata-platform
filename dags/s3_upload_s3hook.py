@@ -9,16 +9,15 @@ def upload_to_s3() -> None:
     import urllib, json
     #get json
     url = 'http://openapi.seoul.go.kr:8088/7a5555736979656f3435534668576f/json/CardSubwayStatsNew/1/1000/20220301'
-    # url을 불러오고 이것을 인코딩을 utf-8로 전환하여 결과를 받자.
+    # url을 불러오고 이것을 인코딩을 utf-8로 전환하여 결과
     response = urllib.request.urlopen(url) 
     json_str = response.read().decode("utf-8")
-    # 받은 데이터가 문자열이라서 이를 json으로 변환한다.
-    json_object = json.loads(json_str)
-    
+    index = json_str.find("USE_DT") # json 파싱 위해 index
+  
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
     #hook.load_bytes(bytes(json.dumps(json_object).encode('UTF-8')), key='20220301.json', bucket_name='subway-json-bkt-sykim')
-    hook.load_string(json_str, key='20220301_str.json', bucket_name='subway-json-bkt-sykim')
+    hook.load_string(json_str[index-2:-3], key='20220301_str.json', bucket_name='subway-json-bkt-sykim')
 
 
 with DAG(
