@@ -12,6 +12,7 @@ def upload_to_s3() -> None:
     json_str = response.read().decode("utf-8")
     # 받은 데이터가 문자열이라서 이를 json으로 변환한다.
     json_object = json.loads(json_str)
+    print(json_object)
 
     #upload to s3
     hook = S3Hook('s3_conn')
