@@ -19,11 +19,11 @@ with DAG(
     schedule_interval='@daily',
     start_date=datetime(2022, 7, 29),
     catchup=False
-) as dag:
+    ) as dag:
     # Upload the file
     task_upload_to_s3 = s3.put_object(
-     Body=json.dumps(json_object),
-     Bucket='subway-json-bkt-sykim',
-     Key='20220301'
-)
+        Body=json.dumps(json_object),
+        Bucket='subway-json-bkt-sykim',
+        Key='20220301'
+    )
     task_upload_to_s3
