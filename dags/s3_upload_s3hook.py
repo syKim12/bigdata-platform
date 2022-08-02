@@ -3,6 +3,8 @@ from airflow.models import DAG
 from airflow.operators.python import PythonOperator
 from airflow.hooks.S3_hook import S3Hook
 
+AWS_CONN_ID = 'aws_default'
+
 def upload_to_s3() -> None:
     import urllib, json
     #get json
@@ -15,7 +17,7 @@ def upload_to_s3() -> None:
     print(json_object)
 
     #upload to s3
-    hook = S3Hook('s3_conn')
+    hook = S3Hook(aws_conn_id=AWS_CONN_ID)
     hook.load_file_obj(file_obj=json_object, key='20220301', bucket_name='subway-json-bkt-sykim')
 
 
