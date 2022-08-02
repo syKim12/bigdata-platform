@@ -1,7 +1,6 @@
-import json
-import boto3
-import requests
-import urllib
+from datetime import datetime
+from airflow.models import DAG
+import json, boto3, requests, urllib
 
 url = 'http://openapi.seoul.go.kr:8088/7a5555736979656f3435534668576f/json/CardSubwayStatsNew/1/1000/20220301'
 
@@ -27,5 +26,4 @@ with DAG(
      Bucket='subway-json-bkt-sykim',
      Key='20220301'
 )
-
     task_upload_to_s3
