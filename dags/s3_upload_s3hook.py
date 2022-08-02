@@ -18,7 +18,7 @@ def upload_to_s3() -> None:
 
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
-    hook.load_bytes(file_obj=json_object, key='20220301', bucket_name='subway-json-bkt-sykim')
+    hook.load_bytes(json_object, key='20220301', bucket_name='subway-json-bkt-sykim')
 
 
 with DAG(
