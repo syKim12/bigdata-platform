@@ -13,12 +13,11 @@ def upload_to_s3() -> None:
     response = urllib.request.urlopen(url) 
     json_str = response.read().decode("utf-8")
     # 받은 데이터가 문자열이라서 이를 json으로 변환한다.
-    json_object = json.loads(json_str)
-    print(json_object)
-
+    #json_object = json.loads(json_str)
+    
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
-    hook.load_bytes(json_object, key='20220301', bucket_name='subway-json-bkt-sykim')
+    hook.load_file_obj(json_str, key='20220301.json', bucket_name='subway-json-bkt-sykim')
 
 
 with DAG(
