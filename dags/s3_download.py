@@ -47,7 +47,7 @@ with DAG(
     schedule_interval='@daily',
     start_date=datetime(2022, 3, 1),
     catchup=False
-) as dag:
+    ) as dag:
     # Download a file
     task_download_from_s3 = PythonOperator(
         task_id='download_from_s3',
@@ -64,7 +64,7 @@ with DAG(
         task_id='rename_file',
         python_callable=rename_file,
         op_kwargs={
-            'new_name': 's3_downloaded.csv'
+            'new_name': 's3_downloaded_posts.json'
         }
     )
 
