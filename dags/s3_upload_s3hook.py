@@ -13,11 +13,11 @@ def upload_to_s3() -> None:
     response = urllib.request.urlopen(url) 
     json_str = response.read().decode("utf-8")
     index = json_str.find("USE_DT") # json 파싱 위해 index
+    upload_str = "{" + json_str[index-2:-3] + "}"
   
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
-    #hook.load_bytes(bytes(json.dumps(json_object).encode('UTF-8')), key='20220301.json', bucket_name='subway-json-bkt-sykim')
-    hook.load_string(json_str[index-2:-3], key='20220301_str.json', bucket_name='subway-json-bkt-sykim')
+    hook.load_string(upload_str, key='20220301_str.json', bucket_name='subway-json-bkt-sykim')
 
 
 with DAG(
