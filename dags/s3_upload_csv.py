@@ -28,7 +28,7 @@ def upload_to_s3() -> None:
 
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
-    hook.load_file(filename='data_file.csv', key='20220301_subway.csv', bucket_name='subway-json-bkt-sykim')
+    hook.load_file(filename='data_file.csv', key='20220301_subway.csv', bucket_name='subway-csv-bkt-sykim')
 
 
 with DAG(
