@@ -9,6 +9,7 @@ def upload_to_s3() -> None:
     import json, requests
     from flatten_json import flatten
     #get json
+    result=requests.get(f'http://openapi.seoul.go.kr:8088/7a5555736979656f3435534668576f/json/CardSubwayStatsNew/1/1000/20220301')
     data=result.json()
     json_str = "{\"ROW\":" + json.dumps(data['CardSubwayStatsNew']['row']) + "}"
     json_object = json.loads(json_str)
