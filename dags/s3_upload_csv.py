@@ -22,7 +22,7 @@ def upload_to_s3() -> None:
             header = data.keys()
             csv_writer.writerow(header)
             count += 1
-    csv_writer.writerow(data.values())
+        csv_writer.writerow(data.values())
 
     data_file.close()
 
