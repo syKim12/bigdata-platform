@@ -13,7 +13,7 @@ def upload_to_s3() -> None:
     json_object = data['CardSubwayStatsNew']['row']
     
     #convert to csv
-    data_file = open('data_file.csv', 'w', newline='')
+    data_file = open('data_file.csv', 'w', encoding='utf-8-sig', newline='')
     csv_writer = csv.writer(data_file)
 
     count = 0
@@ -28,7 +28,7 @@ def upload_to_s3() -> None:
 
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
-    hook.load_file(filename='data_file.csv', key='20220301_subway.csv', bucket_name='subway-csv-bkt-sykim')
+    hook.load_file(filename='data_file.csv', key='20220301_subway_utf8.csv', bucket_name='subway-csv-bkt-sykim')
 
 
 with DAG(
