@@ -13,7 +13,7 @@ Tech
 1. airflow dag file 수정 위해 dags 디렉토리의 master branch에 push
 2. git webhook을 이용해 ec2(for Jenkins)의 Jenkins가 업로드 확인 후 ec2(for docker)의 airflow/dags 디렉토리에 변경 사항 반영
 3. Jenkins가 deploy한 후 sudo docker-compose up 명령어를 통해 airflow의 변경사항 반영
-4. airflow web console에서 api(json)을 csv로 변환 후 s3에 업로드하는 데이터 파이프라인 실행
+4. airflow web console에서 api(json)을 csv로 변환 후 s3에 업로드하는 dags 실행
 5. Glue Crawler를 이용해 Glue Data Catalogue에 테이블 생성
 6. AWS Athena를 이용해 데이터 잘 들어왔는지 확인
 7. Glue ETL Job을 통해 s3의 csv를 rds의 mysql에 로드
