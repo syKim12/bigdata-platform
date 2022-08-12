@@ -12,7 +12,7 @@ def upload_to_s3() -> None:
     data_file = open('data_file_202207.csv', 'w', encoding='utf-8-sig', newline='')
     csv_writer = csv.writer(data_file)
     #get json
-    secrets = json.loads(open('secrets.json').read())
+    secrets = json.loads(open('dags/secrets.json').read())
     subway_api_key = secrets["SUBWAY_API_KEY"]
     for date in range(20220701, 20220732):
         result=requests.get(f'http://openapi.seoul.go.kr:8088/{subway_api_key}/json/CardSubwayStatsNew/1/1000/{date}')
