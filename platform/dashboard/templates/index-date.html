@@ -137,7 +137,6 @@
                   <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
                 </div>
                 <form action="{% url 'datepicker' %}" method="POST">
-                  {% csrf_token %}
                   <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -148,9 +147,10 @@
                       <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
                     <input type="date" id="date-picker" name="date"></a>
+                    <button type="submit" class="btn btn-outline-dark">Go</button>
                   </button>
-                  <button type="submit" class="btn btn-outline-dark">Go</button>
                 </form>  
+                <button class="btn btn-outline-dark"><a href="{% url 'index' %}">Main</a></button>
               </div>
             </div>  
           </div>   
