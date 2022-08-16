@@ -56,7 +56,7 @@ with DAG(
         'Name': 'json_to_csv',
         'Role': 'arn:aws:iam::815854164176:role/glue-course-full-access-delete',
         'DatabaseName': 'subway_csv',
-        'Targets': {'S3Targets': [{'Path': f'subway_csv_bkt_sykim/input'}]},
+        'Targets': {'S3Targets': [{'Path': 's3://subway-csv-bkt-sykim/'}]},
     },
     # Waits by default, set False to test the Sensor below
     wait_for_completion=False,
