@@ -53,6 +53,7 @@ def upload_to_s3() -> None:
     except:
         #delete a file if there has been the file name
         hook.delete_objects(bucket= 'subway-csv-bkt-sykim', keys=file_name_csv)
+        hook.load_file(filename=file_name_csv, key=file_name_csv, bucket_name='subway-csv-bkt-sykim')
 
 
 with DAG(
