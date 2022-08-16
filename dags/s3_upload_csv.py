@@ -51,7 +51,7 @@ with DAG(
     crawl_s3 = GlueCrawlerOperator(
     task_id='crawl_s3',
     #json_to_csv
-    config='glue-course-full-access-delete',
+    config='json_to_csv',
     # Waits by default, set False to test the Sensor below
     wait_for_completion=False,
     )
