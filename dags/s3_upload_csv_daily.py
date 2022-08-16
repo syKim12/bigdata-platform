@@ -48,8 +48,11 @@ def upload_to_s3() -> None:
 
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
-    hook.load_file(filename=file_name_csv, key=file_name_csv, bucket_name='subway-csv-bkt-sykim')
-
+    try:
+        hook.load_file(filename=file_name_csv, key=file_name_csv, bucket_name='subway-csv-bkt-sykim')
+    except:
+        #delete a file if there has been the file name
+        hook.delete_objects(bucket= 'subway-csv-bkt-sykim', keys=file_name_csv)
 
 
 with DAG(
