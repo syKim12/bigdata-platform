@@ -57,4 +57,4 @@ with DAG(
     )
 
 
-    task_upload_to_s3 > crawl_s3 
+    task_upload_to_s3 >> crawl_s3 
