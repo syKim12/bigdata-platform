@@ -42,7 +42,7 @@ def upload_to_s3() -> None:
 
 
 with DAG(
-    dag_id='s3_upload_json_to_csv',
+    dag_id='s3_upload_daily',
     schedule_interval='@daily',
     start_date=datetime(2022, 7, 29),
     catchup=False
