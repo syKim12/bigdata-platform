@@ -3,6 +3,7 @@ from airflow.models import DAG
 from airflow.operators.python import PythonOperator
 from airflow.hooks.S3_hook import S3Hook
 from airflow.providers.amazon.aws.operators.glue_crawler import GlueCrawlerOperator
+from airflow.providers.amazon.aws.operators.glue import GlueJobOperator
 
 AWS_CONN_ID = 'aws_default'
 
@@ -10,12 +11,12 @@ def upload_to_s3() -> None:
     import urllib, json, requests, csv
     #open csv file
     date_count = 0
-    data_file = open('data_file_20220801.csv', 'w', encoding='utf-8-sig', newline='')
+    data_file = open('data_file_20220802.csv', 'w', encoding='utf-8-sig', newline='')
     csv_writer = csv.writer(data_file)
     #get json
     secrets = json.loads(open('dags/secrets.json').read())
     subway_api_key = secrets["SUBWAY_API_KEY"]
-    for date in range(20220801, 20220802):
+    for date in range(20220802, 20220803):
         result=requests.get(f'http://openapi.seoul.go.kr:8088/{subway_api_key}/json/CardSubwayStatsNew/1/1000/{date}')
         data=result.json()
         json_object = data['CardSubwayStatsNew']['row']
@@ -32,7 +33,7 @@ def upload_to_s3() -> None:
 
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
-    hook.load_file(filename='data_file_20220801.csv', key='20220801_subway_utf8.csv', bucket_name='subway-csv-bkt-sykim')
+    hook.load_file(filename='data_file_20220802.csv', key='20220802_subway_utf8.csv', bucket_name='subway-csv-bkt-sykim')
 
 
 
@@ -62,5 +63,15 @@ with DAG(
     wait_for_completion=False,
     )
 
+    submit_glue_job = GlueJobOperator(
+        task_id='submit_glue_job',
+        job_name='subway_mysql_str',
+        script_location='s3://aws-glue-assets-815854164176-us-east-1/scripts/subway_mysql_str.py',
+        s3_bucket='aws-glue-assets-815854164176-us-east-1',
+        iam_role_name='glue-course-full-access-delete',
+        create_job_kwargs={'GlueVersion': '3.0', 'NumberOfWorkers': 10, 'WorkerType': 'G.1X'},
+        # Waits by default, set False to test the Sensor below
+        wait_for_completion=False,
+    )
 
-    task_upload_to_s3 >> crawl_s3 
+    task_upload_to_s3 >> crawl_s3 >> submit_glue_job
