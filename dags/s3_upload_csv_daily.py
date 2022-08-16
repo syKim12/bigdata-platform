@@ -15,8 +15,8 @@ def upload_to_s3() -> None:
     three_days_before = datetime.today() - timedelta(days=3)
     cleaned_three_days_before = three_days_before.strftime('%Y%m%d')
     #open csv file
-    file_name = 'subway_data_' + cleaned_three_days_before + '.csv'
-    data_file = open(filename, 'w', encoding='utf-8-sig', newline='')
+    file_name_csv = 'subway_data_' + cleaned_three_days_before + '.csv'
+    data_file = open(file_name_csv, 'w', encoding='utf-8-sig', newline='')
     csv_writer = csv.writer(data_file)
     #get json
     secrets = json.loads(open('dags/secrets.json').read())
@@ -37,7 +37,7 @@ def upload_to_s3() -> None:
 
     #upload to s3
     hook = S3Hook(aws_conn_id=AWS_CONN_ID)
-    hook.load_file(filename=file_name, key=file_name, bucket_name='subway-csv-bkt-sykim')
+    hook.load_file(filename=file_name_csv, key=file_name_csv, bucket_name='subway-csv-bkt-sykim')
 
 
 
