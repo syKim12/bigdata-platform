@@ -47,11 +47,17 @@ with DAG(
         task_id='upload_to_s3',
         python_callable=upload_to_s3,
     )
+    
     #start glue crawler
     crawl_s3 = GlueCrawlerOperator(
     task_id='crawl_s3',
     #json_to_csv
-    config='json_to_csv',
+    config= {
+        'Name': 'json_to_csv',
+        'Role': 'arn:aws:iam::815854164176:role/glue-course-full-access-delete',
+        'DatabaseName': 'subway_csv',
+        'Targets': {'S3Targets': [{'Path': f'subway_csv_bkt_sykim/input'}]},
+    },
     # Waits by default, set False to test the Sensor below
     wait_for_completion=False,
     )
