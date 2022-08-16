@@ -31,6 +31,7 @@ def upload_to_s3() -> None:
         cleaned_date = date.strftime('%Y%m%d')
         file_name_csv = 'subway_data_' + cleaned_date + '.csv'
         data_file = open(file_name_csv, 'w', encoding='utf-8-sig', newline='')
+        csv_writer = csv.writer(data_file)
         result=requests.get(f'http://openapi.seoul.go.kr:8088/{subway_api_key}/json/CardSubwayStatsNew/1/1000/{cleaned_date}')
         data=result.json()
     json_object = data['CardSubwayStatsNew']['row']
