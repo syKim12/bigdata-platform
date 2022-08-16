@@ -12,17 +12,27 @@ AWS_CONN_ID = 'aws_default'
 def upload_to_s3() -> None:
     import urllib, json, requests, csv
     #get three days before today
-    three_days_before = datetime.today() - timedelta(days=3)
-    cleaned_three_days_before = three_days_before.strftime('%Y%m%d')
+    date = datetime.today() - timedelta(days=3)
+    cleaned_date = date.strftime('%Y%m%d')
     #open csv file
-    file_name_csv = 'subway_data_' + cleaned_three_days_before + '.csv'
+    file_name_csv = 'subway_data_' + cleaned_date + '.csv'
     data_file = open(file_name_csv, 'w', encoding='utf-8-sig', newline='')
     csv_writer = csv.writer(data_file)
     #get json
     secrets = json.loads(open('dags/secrets.json').read())
     subway_api_key = secrets["SUBWAY_API_KEY"]
-    result=requests.get(f'http://openapi.seoul.go.kr:8088/{subway_api_key}/json/CardSubwayStatsNew/1/1000/{three_days_before}')
+    result=requests.get(f'http://openapi.seoul.go.kr:8088/{subway_api_key}/json/CardSubwayStatsNew/1/1000/{cleaned_date}')
     data=result.json()
+    error = data.get('CardSubwayStatsNew', None)
+    #에러가 있는 경우 4일 전으로 시도
+    if error is None:
+        data_file.close()
+        date = datetime.today() - timedelta(days=4)
+        cleaned_date = date.strftime('%Y%m%d')
+        file_name_csv = 'subway_data_' + cleaned_date + '.csv'
+        data_file = open(file_name_csv, 'w', encoding='utf-8-sig', newline='')
+        result=requests.get(f'http://openapi.seoul.go.kr:8088/{subway_api_key}/json/CardSubwayStatsNew/1/1000/{cleaned_date}')
+        data=result.json()
     json_object = data['CardSubwayStatsNew']['row']
     #write csv file
     count = 0
