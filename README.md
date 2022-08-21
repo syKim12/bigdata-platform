@@ -20,4 +20,6 @@ Tech
 
 => ec2(for superset)에 있는 apache superset을 통해 업로드된 rds의 데이터베이스에서 자유롭게 데이터 시각화 가능
 
-=> django, chart.js로 만든 대시보드를 통해 퍼블릭하게 각종 차트 확인 가능
+=> django, chart.js로 만든 대시보드를 통해 퍼블릭하게 각종 차트 확인
+=> web dashboard 의 메인 페이지에는 RDS MySQL의 전체 데이터 노선별 승객수 차트
+=> web dashboard 에서 날짜 선택 후 해당 날짜의 차트 확인 기능
